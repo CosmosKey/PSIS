@@ -109,6 +109,30 @@
     this gives us the username of the calling user. A certificate needs to be deplyed to the machine in 
     order for this binding to work.
 
+.EXAMPLE 
+
+    Invoke-PSIS -URL "http://*:8087/" -AuthenticationSchemes negotiate -ProcessRequest {
+        Write-Verbose $request.RequestBody
+        $request.RequestObject.Sequence+=5
+        $request.RequestObject
+    } -Verbose -Impersonate
+
+    This example assumes a JSON object with a Sequence property which is an array being sent in through
+    a POST or PUT request.
+     
+    The sample acts on the JSON deserialized powershell object available in the $request.RequestObject property
+    It adds 5 to the array and then returns the powershell object to the pipeline.
+
+        If the following client code is used:
+        $data = [pscustomobject]@{
+            Sequence = @(1,2,3,4)
+            Strings = @("Orange","yellow","black")
+        }
+        $postData = $data | ConvertTo-Json
+        Invoke-RestMethod -Method post -Uri 'http://localhost:8087/json' -UseDefaultCredentials -Body $postData | ConvertTo-Json
+
+    Then the resulting JSON will have had the number 5 added to the Sequence array.
+
 .NOTES
 
     Hello, my name is Johan Åkerström. I'm the author of PSIS.
