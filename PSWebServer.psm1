@@ -78,6 +78,13 @@
     Skip parsing the inputstream. This leaves the inputstream untouched for explicit processing of 
     $request.inputstream.
 
+.PARAMETER SessionLifespan
+    The SessionLifespan parameter defines how long a session lives for and destroys the session and 
+    the session variables after the specified time. The session hastable of session variables is accessed 
+    through the $Context.Session property.
+
+    Default value is 30 minutes and the variable takes a [timespan] object.
+
 .EXAMPLE
     "<html><body>Hello</body></html>" | out-file "c:\ps\index.html"
     Start-PSWebServer -URL "http://*:8087/" -AuthenticationSchemes negotiate -ProcessRequest {
@@ -167,7 +174,7 @@ Function Start-PSWebServer {
         [int]$RunspacesCount = 4,
         [scriptblock]$ProcessRequest={},
         [string[]]$Modules,
-        [timespan]$SessionLifespan=$(New-TimeSpan -Seconds 20),
+        [timespan]$SessionLifespan=$(New-TimeSpan -Minutes 30),
         [Switch]$SkipReadingInputstream,
         [Switch]$Impersonate
     )
