@@ -187,9 +187,7 @@ Function Start-PSWebServer {
     $listener.Prefixes.Add($url)
     $listener.AuthenticationSchemes = $authenticationSchemes
     $listener.Start()
-    # todo sort out path
-    #$httpUtilsPath = Join-Path $PSScriptRoot "HttpUtils\HttpUtils.psm1"
-    $httpUtilsPath = Join-Path $pwd "HttpUtils\HttpUtils.psm1"
+    $httpUtilsPath = Join-Path $(Split-Path -parent $PSCommandPath) "HttpUtils\HttpUtils.psm1"
     $InitialSessionState = [System.Management.Automation.Runspaces.InitialSessionState]::CreateDefault2()
     $InitialSessionState.ImportPSModule($httpUtilsPath)
     foreach($module in $Modules) {
