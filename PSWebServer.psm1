@@ -218,7 +218,7 @@ Function Start-PSWebServer {
         $VerboseMessageQueue = $event.MessageData.VerboseMessageQueue 
         $expiredSessions = $sessionStates.Values | ? {$_.Cookie.Expired}
         foreach($expiredSession in $expiredSessions) {
-            $sessionGuid = $expiredSessions.Cookie.Value
+            $sessionGuid = $expiredSession.Cookie.Value
             $VerboseMessageQueue.Enqueue("Removing session $sessionGuid")
             [void]$SessionStates.Remove($sessionGuid)
         }
