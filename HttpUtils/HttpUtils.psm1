@@ -1,4 +1,3 @@
-
 Function Get-QueryParameterValue {
     param(
         [Parameter(Mandatory=$true)]
